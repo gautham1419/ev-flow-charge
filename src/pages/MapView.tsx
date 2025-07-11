@@ -21,12 +21,89 @@ interface Station {
   city: string;
 }
 
+// Fallback mock data for when backend is not available
+const mockStations: Station[] = [
+  {
+    id: "1",
+    name: "Tesla Supercharger Connaught Place",
+    type: "charging",
+    plugType: "CCS2",
+    availability: 85,
+    location: "Connaught Place, New Delhi",
+    price: "₹12/kWh",
+    distance: "2.3 km",
+    coordinates: { lat: 28.6328, lng: 77.2197 },
+    city: "New Delhi"
+  },
+  {
+    id: "2",
+    name: "SwapStation Select City Walk",
+    type: "swap",
+    plugType: "Universal",
+    availability: 65,
+    location: "Select City Walk, Saket",
+    price: "₹800/swap",
+    distance: "8.5 km",
+    coordinates: { lat: 28.5245, lng: 77.2066 },
+    city: "New Delhi"
+  },
+  {
+    id: "3",
+    name: "ChargePlus DLF Mall",
+    type: "charging",
+    plugType: "CHAdeMO",
+    availability: 92,
+    location: "DLF Mall, Noida",
+    price: "₹15/kWh",
+    distance: "12.1 km",
+    coordinates: { lat: 28.5355, lng: 77.3910 },
+    city: "Noida"
+  },
+  {
+    id: "4",
+    name: "EcoCharge Cyber Hub",
+    type: "charging",
+    plugType: "Type 2",
+    availability: 45,
+    location: "Cyber Hub, Gurgaon",
+    price: "₹10/kWh",
+    distance: "18.7 km",
+    coordinates: { lat: 28.4595, lng: 77.0266 },
+    city: "Gurgaon"
+  },
+  {
+    id: "5",
+    name: "QuickSwap Metro Station",
+    type: "swap",
+    plugType: "Universal",
+    availability: 78,
+    location: "Rajiv Chowk Metro, New Delhi",
+    price: "₹750/swap",
+    distance: "3.8 km",
+    coordinates: { lat: 28.6333, lng: 77.2194 },
+    city: "New Delhi"
+  },
+  {
+    id: "6",
+    name: "PowerHub Karol Bagh",
+    type: "charging",
+    plugType: "CCS1",
+    availability: 100,
+    location: "Karol Bagh Market, New Delhi",
+    price: "₹14/kWh",
+    distance: "5.2 km",
+    coordinates: { lat: 28.6519, lng: 77.1909 },
+    city: "New Delhi"
+  }
+];
+
 const MapView = () => {
   const [stations, setStations] = useState<Station[]>([]);
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'charging' | 'swap'>('all');
   const [loading, setLoading] = useState(true);
+  const [usingMockData, setUsingMockData] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -46,15 +123,18 @@ const MapView = () => {
       }
       const result = await response.json();
       setStations(result.data);
+      setUsingMockData(false);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching stations:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load stations. Please make sure the backend is running.",
-        variant: "destructive"
-      });
+      console.log('Backend not available, using mock data');
+      setStations(mockStations);
+      setUsingMockData(true);
       setLoading(false);
+      toast({
+        title: "Using Demo Data",
+        description: "Backend is not running. Showing demo stations data.",
+        variant: "default"
+      });
     }
   };
 
@@ -77,7 +157,7 @@ const MapView = () => {
   };
 
   const getAvailabilityColor = (availability: number) => {
-    if (availability >= 70) return 'bg-charge-500';
+    if (availability >= 70) return 'bg-green-500';
     if (availability >= 40) return 'bg-yellow-500';
     return 'bg-red-500';
   };
@@ -89,7 +169,7 @@ const MapView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-electric-50 to-charge-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -98,14 +178,18 @@ const MapView = () => {
               variant="outline"
               size="sm"
               onClick={() => navigate('/')}
-              className="hover:bg-electric-50"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
             </Button>
             <div>
               <h1 className="text-3xl font-bold text-gray-800">Charging Stations in Delhi NCR</h1>
-              <p className="text-gray-600">Find the perfect station for your needs</p>
+              <p className="text-gray-600">
+                Find the perfect station for your needs
+                {usingMockData && (
+                  <span className="ml-2 text-sm text-orange-600">(Demo Mode)</span>
+                )}
+              </p>
             </div>
           </div>
         </div>
@@ -173,14 +257,14 @@ const MapView = () => {
         {!loading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredStations.map((station, index) => (
-              <Card key={station.id} className="hover-lift bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <Card key={station.id} className="hover:shadow-lg transition-shadow bg-white border shadow-sm" style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       {station.type === 'charging' ? (
-                        <Zap className="h-5 w-5 text-electric-500" />
+                        <Zap className="h-5 w-5 text-blue-500" />
                       ) : (
-                        <Battery className="h-5 w-5 text-charge-500" />
+                        <Battery className="h-5 w-5 text-green-500" />
                       )}
                       <CardTitle className="text-lg">{station.name}</CardTitle>
                     </div>
@@ -210,7 +294,7 @@ const MapView = () => {
                   
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Price:</span>
-                    <span className="font-medium text-electric-600">{station.price}</span>
+                    <span className="font-medium text-blue-600">{station.price}</span>
                   </div>
 
                   {/* Availability Bar */}
@@ -228,7 +312,7 @@ const MapView = () => {
                   </div>
 
                   <Button
-                    className="w-full bg-electric-500 hover:bg-electric-600 text-white group"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white"
                     onClick={() => navigate(`/book/${station.id}`)}
                   >
                     <Clock className="h-4 w-4 mr-2" />
