@@ -1,0 +1,69 @@
+
+[
+  {
+    "id": "1",
+    "name": "Tesla Supercharger Downtown",
+    "type": "charging",
+    "plugType": "CCS2",
+    "availability": 85,
+    "location": "Downtown District",
+    "price": "$0.28/kWh",
+    "distance": "0.8 km",
+    "coordinates": { "lat": 40.7128, "lng": -74.0060 }
+  },
+  {
+    "id": "2",
+    "name": "SwapStation Mall Plaza",
+    "type": "swap",
+    "plugType": "Universal",
+    "availability": 65,
+    "location": "Mall Plaza",
+    "price": "$15/swap",
+    "distance": "1.2 km",
+    "coordinates": { "lat": 40.7589, "lng": -73.9851 }
+  },
+  {
+    "id": "3",
+    "name": "ChargePlus Highway",
+    "type": "charging",
+    "plugType": "CHAdeMO",
+    "availability": 92,
+    "location": "Highway Exit 12",
+    "price": "$0.32/kWh",
+    "distance": "2.5 km",
+    "coordinates": { "lat": 40.6782, "lng": -73.9442 }
+  },
+  {
+    "id": "4",
+    "name": "EcoCharge Station",
+    "type": "charging",
+    "plugType": "Type 2",
+    "availability": 45,
+    "location": "Green Park",
+    "price": "$0.25/kWh",
+    "distance": "1.8 km",
+    "coordinates": { "lat": 40.7831, "lng": -73.9712 }
+  },
+  {
+    "id": "5",
+    "name": "QuickSwap Express",
+    "type": "swap",
+    "plugType": "Universal",
+    "availability": 78,
+    "location": "Business District",
+    "price": "$18/swap",
+    "distance": "3.1 km",
+    "coordinates": { "lat": 40.7505, "lng": -73.9934 }
+  },
+  {
+    "id": "6",
+    "name": "PowerHub Central",
+    "type": "charging",
+    "plugType": "CCS1",
+    "availability": 100,
+    "location": "City Center",
+    "price": "$0.30/kWh",
+    "distance": "0.5 km",
+    "coordinates": { "lat": 40.7488, "lng": -73.9857 }
+  }
+]
