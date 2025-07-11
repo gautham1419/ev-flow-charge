@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";  
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,8 @@ interface Station {
   location: string;
   price: string;
   distance: string;
+  coordinates: { lat: number; lng: number };
+  city: string;
 }
 
 const MapView = () => {
@@ -38,77 +40,18 @@ const MapView = () => {
 
   const fetchStations = async () => {
     try {
-      // Simulate API call
-      setTimeout(() => {
-        const mockStations: Station[] = [
-          {
-            id: '1',
-            name: 'Tesla Supercharger Downtown',
-            type: 'charging',
-            plugType: 'CCS2',
-            availability: 85,
-            location: 'Downtown District',
-            price: '$0.28/kWh',
-            distance: '0.8 km'
-          },
-          {
-            id: '2',
-            name: 'SwapStation Mall Plaza',
-            type: 'swap',
-            plugType: 'Universal',
-            availability: 65,
-            location: 'Mall Plaza',
-            price: '$15/swap',
-            distance: '1.2 km'
-          },
-          {
-            id: '3',
-            name: 'ChargePlus Highway',
-            type: 'charging',
-            plugType: 'CHAdeMO',
-            availability: 92,
-            location: 'Highway Exit 12',
-            price: '$0.32/kWh',
-            distance: '2.5 km'
-          },
-          {
-            id: '4',
-            name: 'EcoCharge Station',
-            type: 'charging',
-            plugType: 'Type 2',
-            availability: 45,
-            location: 'Green Park',
-            price: '$0.25/kWh',
-            distance: '1.8 km'
-          },
-          {
-            id: '5',
-            name: 'QuickSwap Express',
-            type: 'swap',
-            plugType: 'Universal',
-            availability: 78,
-            location: 'Business District',
-            price: '$18/swap',
-            distance: '3.1 km'
-          },
-          {
-            id: '6',
-            name: 'PowerHub Central',
-            type: 'charging',
-            plugType: 'CCS1',
-            availability: 100,
-            location: 'City Center',
-            price: '$0.30/kWh',
-            distance: '0.5 km'
-          }
-        ];
-        setStations(mockStations);
-        setLoading(false);
-      }, 1000);
+      const response = await fetch('http://localhost:5000/api/stations');
+      if (!response.ok) {
+        throw new Error('Failed to fetch stations');
+      }
+      const result = await response.json();
+      setStations(result.data);
+      setLoading(false);
     } catch (error) {
+      console.error('Error fetching stations:', error);
       toast({
         title: "Error",
-        description: "Failed to load stations. Please try again.",
+        description: "Failed to load stations. Please make sure the backend is running.",
         variant: "destructive"
       });
       setLoading(false);
@@ -125,7 +68,8 @@ const MapView = () => {
     if (searchTerm) {
       filtered = filtered.filter(station =>
         station.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        station.location.toLowerCase().includes(searchTerm.toLowerCase())
+        station.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        station.city.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -160,7 +104,7 @@ const MapView = () => {
               Back
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Charging Stations</h1>
+              <h1 className="text-3xl font-bold text-gray-800">Charging Stations in Delhi NCR</h1>
               <p className="text-gray-600">Find the perfect station for your needs</p>
             </div>
           </div>
@@ -171,7 +115,7 @@ const MapView = () => {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search stations or locations..."
+              placeholder="Search stations, locations, or cities..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -252,6 +196,11 @@ const MapView = () => {
                     <MapPin className="h-4 w-4" />
                     <span>{station.location}</span>
                     <span className="ml-auto font-medium">{station.distance}</span>
+                  </div>
+                  
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">City:</span>
+                    <span className="font-medium">{station.city}</span>
                   </div>
                   
                   <div className="flex justify-between text-sm">
