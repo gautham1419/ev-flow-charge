@@ -2,68 +2,98 @@
 [
   {
     "id": "1",
-    "name": "Tesla Supercharger Downtown",
+    "name": "Tesla Supercharger Connaught Place",
     "type": "charging",
     "plugType": "CCS2",
     "availability": 85,
-    "location": "Downtown District",
-    "price": "$0.28/kWh",
-    "distance": "0.8 km",
-    "coordinates": { "lat": 40.7128, "lng": -74.0060 }
+    "location": "Connaught Place, New Delhi",
+    "price": "₹12/kWh",
+    "distance": "2.3 km",
+    "coordinates": { "lat": 28.6328, "lng": 77.2197 },
+    "city": "New Delhi"
   },
   {
     "id": "2",
-    "name": "SwapStation Mall Plaza",
+    "name": "SwapStation Select City Walk",
     "type": "swap",
     "plugType": "Universal",
     "availability": 65,
-    "location": "Mall Plaza",
-    "price": "$15/swap",
-    "distance": "1.2 km",
-    "coordinates": { "lat": 40.7589, "lng": -73.9851 }
+    "location": "Select City Walk, Saket",
+    "price": "₹800/swap",
+    "distance": "8.5 km",
+    "coordinates": { "lat": 28.5245, "lng": 77.2066 },
+    "city": "New Delhi"
   },
   {
     "id": "3",
-    "name": "ChargePlus Highway",
+    "name": "ChargePlus DLF Mall",
     "type": "charging",
     "plugType": "CHAdeMO",
     "availability": 92,
-    "location": "Highway Exit 12",
-    "price": "$0.32/kWh",
-    "distance": "2.5 km",
-    "coordinates": { "lat": 40.6782, "lng": -73.9442 }
+    "location": "DLF Mall, Noida",
+    "price": "₹15/kWh",
+    "distance": "12.1 km",
+    "coordinates": { "lat": 28.5355, "lng": 77.3910 },
+    "city": "Noida"
   },
   {
     "id": "4",
-    "name": "EcoCharge Station",
+    "name": "EcoCharge Cyber Hub",
     "type": "charging",
     "plugType": "Type 2",
     "availability": 45,
-    "location": "Green Park",
-    "price": "$0.25/kWh",
-    "distance": "1.8 km",
-    "coordinates": { "lat": 40.7831, "lng": -73.9712 }
+    "location": "Cyber Hub, Gurgaon",
+    "price": "₹10/kWh",
+    "distance": "18.7 km",
+    "coordinates": { "lat": 28.4595, "lng": 77.0266 },
+    "city": "Gurgaon"
   },
   {
     "id": "5",
-    "name": "QuickSwap Express",
+    "name": "QuickSwap Metro Station",
     "type": "swap",
     "plugType": "Universal",
     "availability": 78,
-    "location": "Business District",
-    "price": "$18/swap",
-    "distance": "3.1 km",
-    "coordinates": { "lat": 40.7505, "lng": -73.9934 }
+    "location": "Rajiv Chowk Metro, New Delhi",
+    "price": "₹750/swap",
+    "distance": "3.8 km",
+    "coordinates": { "lat": 28.6333, "lng": 77.2194 },
+    "city": "New Delhi"
   },
   {
     "id": "6",
-    "name": "PowerHub Central",
+    "name": "PowerHub Karol Bagh",
     "type": "charging",
     "plugType": "CCS1",
     "availability": 100,
-    "location": "City Center",
-    "price": "$0.30/kWh",
-    "distance": "0.5 km",
-    "coordinates": { "lat": 40.7488, "lng": -73.9857 }
+    "location": "Karol Bagh Market, New Delhi",
+    "price": "₹14/kWh",
+    "distance": "5.2 km",
+    "coordinates": { "lat": 28.6519, "lng": 77.1909 },
+    "city": "New Delhi"
+  },
+  {
+    "id": "7",
+    "name": "FastCharge India Gate",
+    "type": "charging",
+    "plugType": "CCS2",
+    "availability": 67,
+    "location": "Near India Gate, New Delhi",
+    "price": "₹11/kWh",
+    "distance": "4.1 km",
+    "coordinates": { "lat": 28.6129, "lng": 77.2295 },
+    "city": "New Delhi"
+  },
+  {
+    "id": "8",
+    "name": "SwapStation Dwarka",
+    "type": "swap",
+    "plugType": "Universal",
+    "availability": 55,
+    "location": "Dwarka Sector 21, New Delhi",
+    "price": "₹850/swap",
+    "distance": "22.3 km",
+    "coordinates": { "lat": 28.5692, "lng": 77.0593 },
+    "city": "New Delhi"
   }
 ]
