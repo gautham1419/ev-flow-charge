@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { format } from 'date-fns';
-import { CalendarIcon, MapPin } from "lucide-react";
+import { CalendarIcon, MapPin, Route } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
@@ -226,6 +226,14 @@ const MapView = () => {
               Set Location
             </Button>
           </LocationDialog>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => navigate('/routing')}
+          >
+            <Route className="h-4 w-4 mr-2" />
+            Smart Routing
+          </Button>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant={"outline"} className="w-full sm:w-auto">

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { Zap, Battery, MapPin, Clock, Users, Shield, ArrowRight } from "lucide-react";
+import { Zap, Battery, MapPin, Clock, Users, Shield, ArrowRight, Route } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -59,6 +59,15 @@ const Index = () => {
                 >
                   Find Charging Station
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-electric-500 text-electric-600 hover:bg-electric-50 px-8 py-4 text-lg"
+                  onClick={() => navigate('/routing')}
+                >
+                  <Route className="mr-2 h-5 w-5" />
+                  Smart Routing
                 </Button>
                 <Button 
                   variant="outline" 
