@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Zap, Battery, MapPin, Clock, User, Calendar } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft, Zap, Battery, MapPin, Clock, User, Mail, Phone, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Station } from './MapView'; // Import the unified Station interface
 
@@ -34,10 +34,10 @@ const BookingForm = () => {
     customerName: '',
     email: '',
     phone: '',
-    date: new Date().toISOString().split('T')[0],
-    time: '10:00',
-    duration: '60',
-    notes: '',
+    date: '',
+    time: '',
+    duration: '30',
+    notes: ''
   });
 
   useEffect(() => {
@@ -66,15 +66,6 @@ const BookingForm = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,16 +100,19 @@ const BookingForm = () => {
         setSubmitting(false);
         navigate('/bookings');
       }, 1500);
+
     } catch (error) {
-      console.error('Error creating booking:', error);
       toast({
         title: "Booking Failed",
         description: "Something went wrong. Please try again.",
         variant: "destructive"
       });
-    } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   if (loading) {
@@ -206,10 +200,9 @@ const BookingForm = () => {
                         <Label htmlFor="customerName">Full Name *</Label>
                         <Input
                           id="customerName"
-                          name="customerName"
                           type="text"
                           value={formData.customerName}
-                          onChange={handleInputChange}
+                          onChange={(e) => handleInputChange('customerName', e.target.value)}
                           placeholder="John Doe"
                           required
                         />
@@ -218,10 +211,9 @@ const BookingForm = () => {
                         <Label htmlFor="email">Email Address *</Label>
                         <Input
                           id="email"
-                          name="email"
                           type="email"
                           value={formData.email}
-                          onChange={handleInputChange}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
                           placeholder="john.doe@example.com"
                           required
                         />
@@ -231,12 +223,10 @@ const BookingForm = () => {
                       <Label htmlFor="phone">Phone Number *</Label>
                       <Input
                         id="phone"
-                        name="phone"
                         type="tel"
                         value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="+91 12345 67890"
-                        required
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        placeholder="+1 (555) 123-4567"
                       />
                     </div>
                   </div>
@@ -247,15 +237,15 @@ const BookingForm = () => {
                       <Clock className="h-4 w-4" />
                       Schedule
                     </h3>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="date">Date *</Label>
                         <Input
                           id="date"
-                          name="date"
                           type="date"
                           value={formData.date}
-                          onChange={handleInputChange}
+                          onChange={(e) => handleInputChange('date', e.target.value)}
                           min={new Date().toISOString().split('T')[0]}
                           required
                         />
@@ -263,9 +253,8 @@ const BookingForm = () => {
                       <div>
                         <Label htmlFor="time">Time *</Label>
                         <Select
-                          name="time"
                           value={formData.time}
-                          onValueChange={(value) => handleSelectChange('time', value)}
+                          onValueChange={(value) => handleInputChange('time', value)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Select time" />
@@ -280,12 +269,12 @@ const BookingForm = () => {
                         </Select>
                       </div>
                     </div>
+
                     <div>
                       <Label htmlFor="duration">Duration *</Label>
                       <Select
-                        name="duration"
                         value={formData.duration}
-                        onValueChange={(value) => handleSelectChange('duration', value)}
+                        onValueChange={(value) => handleInputChange('duration', value)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select duration" />
@@ -306,9 +295,8 @@ const BookingForm = () => {
                     <Label htmlFor="notes">Additional Notes</Label>
                     <Textarea
                       id="notes"
-                      name="notes"
                       value={formData.notes}
-                      onChange={handleInputChange}
+                      onChange={(e) => handleInputChange('notes', e.target.value)}
                       placeholder="Any special requirements or notes..."
                       rows={3}
                     />
@@ -335,158 +323,6 @@ const BookingForm = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default BookingForm;
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Station Details */}
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                {station.type === 'charging' ? (
-                  <Zap className="h-5 w-5 text-electric-500" />
-                ) : (
-                  <Battery className="h-5 w-5 text-charge-500" />
-                )}
-                {station.name}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-2 text-gray-600">
-                <MapPin className="h-4 w-4" />
-                <span>{station.location}, {station.city}</span>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-600">Type:</span>
-                  <p className="font-medium capitalize">{station.type}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Plug Type:</span>
-                  <p className="font-medium">{station.plugType}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Price:</span>
-                  <p className="font-medium text-electric-600">{station.price}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Availability:</span>
-                  <p className="font-medium">{station.availability}%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Booking Form */}
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-charge-500" />
-                Booking Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="duration">
-                    Duration (minutes) *
-                  </Label>
-                  <Input
-                    id="duration"
-                    name="duration"
-                    type="number"
-                    min="15"
-                    max="240"
-                    step="15"
-                    placeholder="e.g., 60"
-                    value={formData.duration}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <p className="text-sm text-gray-500">
-                    Minimum 15 minutes, maximum 4 hours
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="timeSlot">
-                    Preferred Time Slot *
-                  </Label>
-                  <select
-                    id="timeSlot"
-                    name="timeSlot"
-                    value={formData.timeSlot}
-                    onChange={(e) => handleInputChange(e as any)}
-                    required
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="">Select a time slot</option>
-                    {generateTimeSlots().map((slot) => (
-                      <option key={slot} value={slot}>{slot}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="customerName">
-                    <User className="h-4 w-4 inline mr-1" />
-                    Name (Optional)
-                  </Label>
-                  <Input
-                    id="customerName"
-                    name="customerName"
-                    type="text"
-                    placeholder="Your name"
-                    value={formData.customerName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="customerEmail">
-                    <Mail className="h-4 w-4 inline mr-1" />
-                    Email (Optional)
-                  </Label>
-                  <Input
-                    id="customerEmail"
-                    name="customerEmail"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={formData.customerEmail}
-                    onChange={handleInputChange}
-                  />
-                  <p className="text-sm text-gray-500">
-                    We'll send booking confirmation to this email
-                  </p>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-electric-500 hover:bg-electric-600 text-white"
-                  disabled={submitting}
-                >
-                  {submitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Booking...
-                    </>
-                  ) : (
-                    <>
-                      <Clock className="h-4 w-4 mr-2" />
-                      Confirm Booking
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
->>>>>>> a7647a36637b0364cc852aa9cc83e852895728b5
         </div>
       </div>
     </div>
